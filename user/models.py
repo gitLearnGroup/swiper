@@ -26,7 +26,7 @@ class User(models.Model):
     @property
     def profile(self):
         """自定义的数据库表关联"""
-        if hasattr(self, '_profile'):
+        if not hasattr(self, '_profile'):
             _profile, _ = Profile.objects.get_or_create(id=self.id)
             self._profile = _profile
         return self._profile
@@ -39,8 +39,8 @@ class Profile(models.Model):
         ('女', '女')
     )
     location = models.CharField(max_length=32, verbose_name='目标城市')
-    min_distance = models.IntegerField(verbose_name='最小查询范围')
-    max_distance = models.IntegerField(verbose_name='最大查询范围')
+    min_distance = models.IntegerField(default=0, verbose_name='最小查询范围')
+    max_distance = models.IntegerField(default=200, verbose_name='最大查询范围')
     min_dating_age = models.CharField(default=18, max_length=3, verbose_name='最小匹配年龄')
     max_dating_age = models.CharField(default=45, max_length=3, verbose_name='最大匹配年龄')
     dating_sex = models.CharField(default='女', choices=SEX, max_length=8)
