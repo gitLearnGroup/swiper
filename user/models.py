@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import date
+from django.utils.functional import cached_property
 
 
 class User(models.Model):
@@ -17,7 +18,7 @@ class User(models.Model):
     birth_month = models.IntegerField(default=1)
     birth_day = models.IntegerField(default=1)
 
-    @property
+    @cached_property  # 作用几乎等同于@property
     def age(self):
         today = date.today()
         birth_time = date(self.birth_year, self.birth_month, self.birth_day)
