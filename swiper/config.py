@@ -1,4 +1,4 @@
-"""互亿无限"""
+# 互亿无限短信接入
 
 # 接口地址
 HY_SMS_URL = 'http://106.ihuyi.com/webservice/sms.php?method=Submit'
@@ -12,3 +12,11 @@ HY_SMS_PARAMS = {
     'content': '您的验证码是：%s。请不要把验证码泄露给其他人。',
     'format': 'json',
 }
+
+# 七牛云存储接入
+
+QN_ACCESS_KEY = 'b3cqZvwHXRayOQVRT1_qNKN0uzwvARxh_bvwtHPb'
+QN_SECRET_KEY = 'RgRok8T3r34gLKU1cJ76i3fnOuf6pZNxy5va6C4A'
+QN_BUCKET_NAME = 'swiper218'
+BASE_URL = 'http://rjfpquhhz.hd-bkt.clouddn.com/'
+
