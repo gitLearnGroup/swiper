@@ -9,6 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'swiper.settings')
 django.setup()
 
 from user.models import User
+from vip.models import Vip, Permission, VipPermRelative
 
 first_name = [
    '赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许',
@@ -72,7 +73,7 @@ def make_name():
     return name, current_sex
 
 
-if __name__ == '__main__':
+def make_robot():
     from random import randrange, choice
     for i in range(1000):
         try:
@@ -88,4 +89,52 @@ if __name__ == '__main__':
             )
         except:
             pass
+
+
+def make_vip():
+    for i in range(4):
+        Vip.objects.create(
+            name=f"vip_{i}",
+            level=i,
+            price=5*i
+        )
+    print('vip数据制造成功')
+
+
+def make_permission():
+    for name in ['vip_flag', 'super_like', 'rewind', 'any_location', 'not_limit_like']:
+        Permission.objects.create(name=name)
+    print('permission数据制造成功')
+
+
+def make_relative():
+    vip_1 = Vip.objects.get(level=1)
+    vip_2 = Vip.objects.get(level=2)
+    vip_3 = Vip.objects.get(level=3)
+
+    vip_flag = Permission.objects.get(name='vip_flag')
+    super_like = Permission.objects.get(name='super_like')
+    rewind = Permission.objects.get(name='rewind')
+    any_location = Permission.objects.get(name='any_location')
+    not_limit_like = Permission.objects.get(name='not_limit_like')
+
+    VipPermRelative.objects.create(vip_id=vip_1.id, perm_id=vip_flag.id)
+    VipPermRelative.objects.create(vip_id=vip_1.id, perm_id=super_like.id)
+
+    VipPermRelative.objects.create(vip_id=vip_2.id, perm_id=vip_flag.id)
+    VipPermRelative.objects.create(vip_id=vip_2.id, perm_id=rewind.id)
+    
+    VipPermRelative.objects.create(vip_id=vip_3.id, perm_id=vip_flag.id)
+    VipPermRelative.objects.create(vip_id=vip_3.id, perm_id=super_like.id)
+    VipPermRelative.objects.create(vip_id=vip_3.id, perm_id=rewind.id)
+    VipPermRelative.objects.create(vip_id=vip_3.id, perm_id=any_location.id)
+    VipPermRelative.objects.create(vip_id=vip_3.id, perm_id=not_limit_like.id)
+    print('relative数据制造成功')
+
+
+if __name__ == '__main__':
+    # make_robot()
+    # make_vip()
+    # make_permission()
+    make_relative()
 

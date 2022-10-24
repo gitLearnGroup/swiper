@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     # 'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
-    'social'
+    'social',
+    'vip'
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,11 @@ WSGI_APPLICATION = 'swiper.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+    """分布式数据库
+    性能考虑，一般每个数据库存的数据量不大于500W条
+    分库（水平切割） + 分表（水平切割 + 垂直切割）
+    调用e.g：model_obj.objects.using('db1').get(id=1)
+    """
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'swiper',
@@ -84,9 +90,26 @@ DATABASES = {
         'PORT': 3306,
         'USER': 'root',
         'PASSWORD': 'liu.666'
+    },
+    'db1': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'XXX',
+            'HOST': 'localhost',
+            'PORT': 3306,
+            'USER': 'XX',
+            'PASSWORD': 'XXX'
+        },
     }
-}
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://localhost:6379/4',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
