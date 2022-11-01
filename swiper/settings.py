@@ -77,12 +77,12 @@ WSGI_APPLICATION = 'swiper.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+"""分布式数据库
+性能考虑，一般每个数据库存的数据量不大于500W条
+分库（水平切割） + 分表（水平切割 + 垂直切割）
+调用e.g：model_obj.objects.using('db1').get(id=1)
+"""
 DATABASES = {
-    """分布式数据库
-    性能考虑，一般每个数据库存的数据量不大于500W条
-    分库（水平切割） + 分表（水平切割 + 垂直切割）
-    调用e.g：model_obj.objects.using('db1').get(id=1)
-    """
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'swiper',
@@ -90,16 +90,16 @@ DATABASES = {
         'PORT': 3306,
         'USER': 'root',
         'PASSWORD': 'liu.666'
-    },
-    'db1': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'XXX',
-            'HOST': 'localhost',
-            'PORT': 3306,
-            'USER': 'XX',
-            'PASSWORD': 'XXX'
         },
-    }
+    'db1': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'swiper',
+        'HOST': 'localhost',
+        'PORT': 3306,
+        'USER': 'root',
+        'PASSWORD': 'liu.666'
+        },
+}
 
 CACHES = {
     'default': {
@@ -135,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'Asia/ShangHai'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
